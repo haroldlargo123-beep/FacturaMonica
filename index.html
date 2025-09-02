@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura Térmica - Dulces Tentación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                font-size: 14px;
+                width: 80mm;
+                margin: 0;
+                padding: 2mm;
+            }
+            .factura-container {
+                width: 100%;
+                border: none;
+                box-shadow: none;
+            }
+        }
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: white;
+        }
+        
+        }
+        
+        }
+        .signature-line {
+            border-top: 1px solid #000;
+            margin-top: 30px;
+            width: 100%;
+        }
+        [contenteditable="true"] {
+            min-height: 30px;
+            outline: none;
+        }
+        [contenteditable="true"]:focus {
+            background-color: #f0f8ff;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="factura-container" id="copia-cliente">
+        <h1 class="text-3xl font-bold text-center text-3xl mb-2">DULCE TENTACIÓN</h1>
+        <h1 class="text-3xl font-bold text-center text-3xl mb-2">SINCE 2021</h1>
+        <p class="text-center text-3xl mb-4">CC: 1001143808</p>
+        
+     
+        
+        <div class="mb-4">
+            <p class="font-bold text-3xl  mb-1">REPRESENTA:</p>
+            <p class="border-b border-black text-3xl pb-1">MONICA PATRICIA MONA MOTATO</p>
+        </div>
+        
+        <div class="mb-4">
+            <p class="font-bold text-3xl  mb-1">SOCIO:</p>
+            <p class="border-b border-black text-3xl pb-1 editable-field" data-field="socio" contenteditable="true"></p>
+        </div>
+        
+        <div class="mb-4">
+            <p class="font-bold text-3xl  mb-1">VALOR:</p>
+            <p class="border-b border-black text-3xl pb-1 editable-field" data-field="valor" contenteditable="true"></p>
+        </div>
+        
+        <div class="mb-4">
+            <p class="font-bold text-3xl  mb-1">FECHA:</p>
+            <p class="border-b border-black text-3xl pb-1 editable-field" data-field="fecha" contenteditable="true"></p>
+        </div>
+        
+        <div class="mt-6">
+            <p class="text-center text-3xl mb-8">FIRMA QUIEN RECIBE:</p>				
+            <div class="signature-line mt-28"></div>
+        </div>
+         <p class="text-center text-3xl mt-2">________________________________________________________</p>
+    </div>
+    </div>
+    
+    <!-- Segunda copia -->
+   
+
+    <script>
+        // Autocompletar fecha actual y sincronizar campos
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('es-ES');
+            const dateFields = document.querySelectorAll('[data-field="fecha"]');
+            
+            // Autocompletar fecha si está vacío
+            dateFields.forEach(field => {
+                if(!field.textContent.trim()) {
+                    field.textContent = dateStr;
+                }
+            });
+            
+            // Sincronizar campos editables
+            const editableFields = document.querySelectorAll('.editable-field');
+            editableFields.forEach(field => {
+                field.addEventListener('input', function() {
+                    const fieldType = this.getAttribute('data-field');
+                    const allSimilarFields = document.querySelectorAll(`[data-field="${fieldType}"]`);
+                    
+                    allSimilarFields.forEach(f => {
+                        if(f !== this) {
+                            f.textContent = this.textContent;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
